@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Stage',
-    tableName: 'events',
+    tableName: 'stages',
     timestamps: false
   });
 
