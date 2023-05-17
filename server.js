@@ -8,15 +8,6 @@ require('dotenv').config()
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 
-// // SEQUELIZE CONNECTION
-// const sequelize = new Sequelize(process.env.PG_URI)
-
-// try {
-//     sequelize.authenticate() 
-//     console.log(`Connected with Sequelize at ${process.env.PG_URI}`) 
-// } catch(err) {
-//     console.log(`Unable to connect to PG: ${err}`) 
-// }
 
 // ROOT
 app.get('/', (req, res) => {
@@ -24,6 +15,20 @@ app.get('/', (req, res) => {
         message: 'Welcome to the Tour API'
     })
 })
+
+
+// CONTROLLERS 
+const bandsController = require('./controllers/bands_controller')
+app.use('/bands', bandsController)
+
+
+// Wildcard
+app.get('*', (req, res) => {
+    res.status(404).json({
+        message: 'Page not found!'
+    })
+})
+
 
 // LISTEN
 app.listen(process.env.PORT, () => {
