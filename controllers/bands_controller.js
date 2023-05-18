@@ -8,6 +8,8 @@ const { Band } = db
 bands.get('/', async (req, res) => {
     try {
         const foundBands = await Band.findAll({
+            offset: req.query.page ? (req.query.page-1) * 5 : 0,
+            limit: 5,
             order: [ ['available_start_time', 'ASC'] ],
             where: {
                 name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%`}
