@@ -8,11 +8,11 @@ const { Band } = db
 bands.get('/', async (req, res) => {
     try {
         const foundBands = await Band.findAll({
-            offset: req.query.page ? (req.query.page-1) * 5 : 0,
-            limit: 5,
-            order: [ ['available_start_time', 'ASC'] ],
+            offset: req.query.page ? (req.query.page - 1) * 10 : 0,
+            limit: 10,
+            order: [['available_start_time', 'ASC']],
             where: {
-                name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%`}
+                name: { [Op.like]: `%${req.query.name ? req.query.name : ''}%` }
             }
         })
         res.status(200).json(foundBands)
@@ -28,7 +28,7 @@ bands.get('/:id', async (req, res) => {
             where: { band_id: req.params.id }
         })
         res.status(200).json(foundBand)
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })
@@ -41,7 +41,7 @@ bands.post('/', async (req, res) => {
             message: 'Successfully inserted a new band',
             data: newBand
         })
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })
@@ -49,25 +49,25 @@ bands.post('/', async (req, res) => {
 // Update Route
 bands.post('/:id', async (req, res) => {
     try {
-        const updatedBand = await Band.update(req.body, {where: {band_id: req.params.id}})
+        const updatedBand = await Band.update(req.body, { where: { band_id: req.params.id } })
         res.status(200).json({
             message: `Successfully updated ${updatedBand} band`,
             data: updatedBand
         })
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })
 
 // Delete Route
-bands.delete('/:id', async (req,res) => {
+bands.delete('/:id', async (req, res) => {
     try {
-        const deletedBand = await (Band.destroy({where: {band_id: req.params.id}}))
+        const deletedBand = await (Band.destroy({ where: { band_id: req.params.id } }))
         res.status(200).json({
             message: `Successfully deleted ${deletedBand} band`,
             data: deletedBand
         })
-    } catch(err) {
+    } catch (err) {
         res.status(500).json(err)
     }
 })
